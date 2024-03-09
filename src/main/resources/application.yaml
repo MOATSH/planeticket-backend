@@ -1,0 +1,28 @@
+server:
+  port: 80
+  servlet:
+    context-path: /api
+
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://8.137.118.233:3306/flight_db?serverTimezone=GMT%2B8&characterEncoding=utf-8
+    username: root
+    password: root
+  redis:
+    host: 47.108.182.28
+    port: 6379
+    database: 0
+    timeout: 3000ms
+    lettuce:
+      pool:
+        max-active: 20
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:com/scu/planeticket/mapper/xml/*.xml
