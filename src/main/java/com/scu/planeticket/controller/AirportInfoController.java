@@ -3,6 +3,7 @@ package com.scu.planeticket.controller;
 
 import com.scu.planeticket.pojo.dto.GetAirPortInfoListRespDTO;
 import com.scu.planeticket.service.AirportInfoService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,6 +21,7 @@ import java.util.List;
  * @since 2024-03-09
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/airportInfo")
 public class AirportInfoController {
     @Resource

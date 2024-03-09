@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
  * @Program: planeticket
  * @Description:
@@ -26,8 +28,8 @@ public class GetAirPortInfoListRespDTO {
 
     private Integer cityId;
 
-    private Float latitude;
+    private BigDecimal latitude;
 
-    private Float longitude;
+    private BigDecimal longitude;
 
 }

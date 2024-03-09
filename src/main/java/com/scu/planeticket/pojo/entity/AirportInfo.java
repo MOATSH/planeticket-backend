@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,9 +34,9 @@ public class AirportInfo implements Serializable {
 
     private Integer cityId;
 
-    private Float latitude;
+    private BigDecimal latitude;
 
-    private Float longitude;
+    private BigDecimal longitude;
 
 
 }
