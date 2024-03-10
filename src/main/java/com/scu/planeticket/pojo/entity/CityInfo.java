@@ -19,7 +19,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("City_Info")
 public class CityInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,6 +33,5 @@ public class CityInfo implements Serializable {
     private Float latitude;
 
     private Float longitude;
-
 
 }

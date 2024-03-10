@@ -7,8 +7,8 @@ import com.scu.planeticket.service.AirportInfoService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -20,17 +20,11 @@ import java.util.stream.Collectors;
  */
 @Service
 public class AirportInfoServiceImpl extends ServiceImpl<AirportInfoMapper, AirportInfo> implements AirportInfoService {
+    @Resource
+    private AirportInfoMapper airportInfoMapper;
 
     @Override
     public List<GetAirPortInfoListRespDTO> getInfoList() {
-
-        return baseMapper.selectList(null).stream()
-                .map(airportInfo -> GetAirPortInfoListRespDTO.builder()
-                        .airportId(airportInfo.getAirportId())
-                        .title(airportInfo.getAirportName())
-                        .airportCode(airportInfo.getAirportCode())
-                        .cityId(airportInfo.getCityId())
-                        .build())
-                .collect(Collectors.toList());
+        return airportInfoMapper.getInfoList();
     }
 }

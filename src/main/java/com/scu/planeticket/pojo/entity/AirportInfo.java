@@ -20,7 +20,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("Airport_Info")
 public class AirportInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,9 +33,9 @@ public class AirportInfo implements Serializable {
 
     private Integer cityId;
 
-    private BigDecimal latitude;
+    private Float latitude;
 
-    private BigDecimal longitude;
+    private Float longitude;
 
 
 }

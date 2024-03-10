@@ -5,31 +5,27 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 /**
  * @Program: planeticket
  * @Description:
  * @Author: MOATSH
- * @Create: 2024-03-09 11:49
+ * @Create: 2024-03-10 09:41
  **/
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetAirPortInfoListRespDTO {
+public class GetCityInfoListRespDTO {
 
-    private Integer airportId;
+    private Integer cityId;
 
     /*
-    机场名称
+    城市名称
      */
     private String title;
 
-    private String airportCode;
-
-    private String cityName;
+    private String cityCode;
 
     private Float latitude;
 

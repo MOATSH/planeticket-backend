@@ -19,7 +19,6 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("Airline_Info")
 public class AirlineInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -16,6 +16,6 @@ import java.util.List;
  */
 public interface AirportInfoService extends IService<AirportInfo> {
 
-    public List<GetAirPortInfoListRespDTO> getInfoList();
+    List<GetAirPortInfoListRespDTO> getInfoList();
 
 }
