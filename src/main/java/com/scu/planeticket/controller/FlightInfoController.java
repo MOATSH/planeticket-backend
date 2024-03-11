@@ -1,8 +1,12 @@
 package com.scu.planeticket.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.scu.planeticket.pojo.dto.FlightRecommendDestReqDTO;
+import com.scu.planeticket.pojo.dto.FlightRecommendDestRespDTO;
+import com.scu.planeticket.service.FlightInfoService;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -14,7 +18,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/flightInfo")
+@CrossOrigin
 public class FlightInfoController {
+    @Resource
+    private FlightInfoService flightInfoService;
 
+
+    @PostMapping("/recommend/destination")
+    public FlightRecommendDestRespDTO recommendDest(@RequestBody FlightRecommendDestReqDTO reqDTO) {
+        return flightInfoService.recommendDest(reqDTO);
+    }
 }
 

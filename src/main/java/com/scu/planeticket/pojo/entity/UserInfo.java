@@ -14,7 +14,7 @@ import lombok.Data;
 @Data
 public class UserInfo {
 
-    @TableId(value = "city_id", type = IdType.AUTO)
+    @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
     private String userName;

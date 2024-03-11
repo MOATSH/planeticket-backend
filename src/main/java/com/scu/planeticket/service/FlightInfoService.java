@@ -1,6 +1,8 @@
 package com.scu.planeticket.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.scu.planeticket.pojo.dto.FlightRecommendDestReqDTO;
+import com.scu.planeticket.pojo.dto.FlightRecommendDestRespDTO;
 import com.scu.planeticket.pojo.entity.FlightInfo;
 
 /**
@@ -12,5 +14,7 @@ import com.scu.planeticket.pojo.entity.FlightInfo;
  * @since 2024-03-10
  */
 public interface FlightInfoService extends IService<FlightInfo> {
+
+    FlightRecommendDestRespDTO recommendDest(FlightRecommendDestReqDTO reqDTO);
 
 }

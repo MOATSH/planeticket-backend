@@ -1,7 +1,11 @@
 package com.scu.planeticket.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.scu.planeticket.pojo.dto.FlightRecommendDestReqDTO;
+import com.scu.planeticket.pojo.dto.FlightRecommendDestRespDTO;
 import com.scu.planeticket.pojo.entity.PredictPriceInfo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +16,7 @@ import com.scu.planeticket.pojo.entity.PredictPriceInfo;
  * @since 2024-03-10
  */
 public interface PredictPriceInfoMapper extends BaseMapper<PredictPriceInfo> {
+
+    List<FlightRecommendDestRespDTO.MapInfo> selectRecommendDest(FlightRecommendDestReqDTO reqDTO);
 
 }
