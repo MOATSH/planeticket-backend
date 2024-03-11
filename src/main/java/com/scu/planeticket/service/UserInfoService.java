@@ -2,6 +2,7 @@ package com.scu.planeticket.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.scu.planeticket.pojo.entity.UserInfo;
+import org.springframework.stereotype.Service;
 
 /**
  * @Program: planeticket
@@ -11,4 +12,6 @@ import com.scu.planeticket.pojo.entity.UserInfo;
  **/
 
 public interface UserInfoService extends IService<UserInfo> {
+//注册
+void reg(UserInfo userInfo);
 }

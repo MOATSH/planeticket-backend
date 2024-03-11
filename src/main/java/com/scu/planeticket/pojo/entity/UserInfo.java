@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @Program: planeticket
  * @Description: user_info实体类
@@ -12,9 +14,9 @@ import lombok.Data;
  **/
 
 @Data
-public class UserInfo {
+public class UserInfo implements Serializable {
 
-    @TableId(value = "city_id", type = IdType.AUTO)
+    @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
     private String userName;

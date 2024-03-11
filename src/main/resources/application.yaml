@@ -9,7 +9,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://8.137.118.233:3306/flight_db?serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
-    password: root
+    password: 123456@SCU
+#防止报错“Failed to validate connection com.mysql.cj.jdbc.ConnectionImpl@55121b08”
+    hikari:
+      max-lifetime: 500000
   redis:
     host: 47.108.182.28
     port: 6379

@@ -1,8 +1,12 @@
 package com.scu.planeticket.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.scu.planeticket.JsonResult;
+import com.scu.planeticket.mapper.UserInfoMapper;
+import com.scu.planeticket.pojo.entity.UserInfo;
+import com.scu.planeticket.service.UserInfoService;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
 
 /**
  * @Program: planeticket
@@ -13,6 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
+@ResponseBody
 @RequestMapping("/userInfo")
 public class UserInfoController {
+    @Resource
+    private UserInfoMapper userInfoMapper;
+    @Resource
+    private UserInfoService userInfoService;
+    @GetMapping("/{userName}")
+    public void findByUsername(@PathVariable String username){
+        userInfoMapper.findByUsername(username);
+    }
+
+    @GetMapping("/reg")
+    @ResponseBody
+
+    public boolean reg(UserInfo userInfo){
+
+        userInfoService.reg(userInfo);
+        return true;
+
+    }
 }
