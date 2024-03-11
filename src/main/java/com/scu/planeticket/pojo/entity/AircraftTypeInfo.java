@@ -21,7 +21,7 @@ public class AircraftTypeInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-      @TableId(value = "aircraft_type_id", type = IdType.AUTO)
+    @TableId(value = "aircraft_type_id", type = IdType.AUTO)
     private Integer aircraftTypeId;
 
     private String aircraftTypeName;
