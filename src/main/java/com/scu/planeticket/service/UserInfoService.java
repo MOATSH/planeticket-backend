@@ -14,4 +14,6 @@ import org.springframework.stereotype.Service;
 public interface UserInfoService extends IService<UserInfo> {
 //注册
 void reg(UserInfo userInfo);
+//登录
+UserInfo login(String userName, String password);
 }

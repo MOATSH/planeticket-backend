@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+import static javax.security.auth.callback.ConfirmationCallback.OK;
+
 /**
  * @Program: planeticket
  * @Description:
@@ -25,17 +27,22 @@ public class UserInfoController {
     @Resource
     private UserInfoService userInfoService;
     @GetMapping("/{userName}")
-    public void findByUsername(@PathVariable String username){
-        userInfoMapper.findByUsername(username);
+    public void findByUsername(@PathVariable String userName){
+        userInfoMapper.findByUsername(userName);
     }
 
     @GetMapping("/reg")
     @ResponseBody
-
     public boolean reg(UserInfo userInfo){
-
         userInfoService.reg(userInfo);
         return true;
-
     }
+
+    @RequestMapping("/login")
+    public JsonResult<UserInfo> login(String userName, String password) {
+        UserInfo data = userInfoService.login(userName,password);
+        String message="登录成功";
+        return new JsonResult<>(message, data);
+    }
+
 }

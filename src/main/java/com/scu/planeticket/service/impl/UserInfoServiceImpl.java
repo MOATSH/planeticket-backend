@@ -19,7 +19,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Autowired
     private UserInfoMapper userInfoMapper;
 
-    JsonResult<Void> jsonResult = new JsonResult<>();
     @Override
     public void reg(UserInfo userInfo){
         UserInfo result = userInfoMapper.findByUsername(userInfo.getUserName());
@@ -33,5 +32,20 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
                 System.out.println("注册失败");
             }
         }
+    }
+
+    @Override
+    public UserInfo login(String userName, String password){
+        UserInfo result = userInfoMapper.findByUsername(userName);
+        UserInfo userInfo = new UserInfo();
+        if (result == null) {
+            System.out.println("登录失败");
+        }
+        else if(result.getPassword().equals(password)){
+            userInfo.setUserName(result.getUserName());
+            userInfo.setUserId(result.getUserId());
+            userInfo.setPassword(result.getPassword());
+        }
+        return userInfo;
     }
 }
