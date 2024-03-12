@@ -19,7 +19,6 @@ import static javax.security.auth.callback.ConfirmationCallback.OK;
 
 @RestController
 @CrossOrigin
-@ResponseBody
 @RequestMapping("/userInfo")
 public class UserInfoController {
     @Resource
@@ -31,8 +30,7 @@ public class UserInfoController {
         userInfoMapper.findByUsername(userName);
     }
 
-    @GetMapping("/reg")
-    @ResponseBody
+    @GetMapping("/register")
     public boolean reg(UserInfo userInfo){
         userInfoService.reg(userInfo);
         return true;

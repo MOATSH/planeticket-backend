@@ -4,6 +4,7 @@ package com.scu.planeticket.controller;
 import com.scu.planeticket.pojo.dto.GetAirlineAllianceInfoDTO;
 import com.scu.planeticket.service.AirlineAllianceInfoService;
 import com.scu.planeticket.service.AirlineInfoService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,6 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/airlineAllianceInfo")
+@CrossOrigin
 public class AirlineAllianceInfoController {
     @Resource
     private AirlineAllianceInfoService airlineAllianceInfoService;
