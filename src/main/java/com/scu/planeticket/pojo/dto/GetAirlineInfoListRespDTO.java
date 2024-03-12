@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetUserInfoListRespDTO {
-    private Integer userId;
-
-    private String userName;
-
-    private String password;
+public class GetAirlineInfoListRespDTO {
+    private String airlineName;
+    private String country;
+    private String allianceName;
 }
