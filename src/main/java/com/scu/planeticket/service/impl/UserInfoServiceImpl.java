@@ -20,17 +20,20 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     private UserInfoMapper userInfoMapper;
 
     @Override
-    public void reg(UserInfo userInfo){
+    public Boolean reg(UserInfo userInfo){
         UserInfo result = userInfoMapper.findByUsername(userInfo.getUserName());
         if(result!=null){
             System.out.println("用户名被占用");
+            return  Boolean.FALSE;
         }else{
             String oldPassword = userInfo.getPassword();
             userInfo.setPassword(oldPassword);
             Integer rows = userInfoMapper.insert(userInfo);
             if(rows!= 1){
                 System.out.println("注册失败");
+                return Boolean.FALSE;
             }
+            return Boolean.TRUE;
         }
     }
 
@@ -39,13 +42,15 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         UserInfo result = userInfoMapper.findByUsername(userName);
         UserInfo userInfo = new UserInfo();
         if (result == null) {
-            System.out.println("登录失败");
+            return null;
         }
         else if(result.getPassword().equals(password)){
             userInfo.setUserName(result.getUserName());
             userInfo.setUserId(result.getUserId());
             userInfo.setPassword(result.getPassword());
+            return userInfo;
         }
-        return userInfo;
+
+        return null;
     }
 }

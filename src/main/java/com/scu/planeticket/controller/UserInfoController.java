@@ -1,5 +1,4 @@
 package com.scu.planeticket.controller;
-import com.scu.planeticket.JsonResult;
 import com.scu.planeticket.mapper.UserInfoMapper;
 import com.scu.planeticket.pojo.entity.UserInfo;
 import com.scu.planeticket.service.UserInfoService;
@@ -25,16 +24,18 @@ public class UserInfoController {
     }
 
     @GetMapping("/register")
-    public boolean reg(UserInfo userInfo){
-        userInfoService.reg(userInfo);
-        return true;
+    public Boolean reg(UserInfo userInfo){
+        return userInfoService.reg(userInfo);
     }
 
-    @RequestMapping("/login")
-    public JsonResult<UserInfo> login(String userName, String password) {
+    @GetMapping("/login")
+    public Boolean login(@RequestParam(value = "userName") String userName, @RequestParam(value = "password") String password) {
         UserInfo data = userInfoService.login(userName,password);
-        String message="登录成功";
-        return new JsonResult<>(message, data);
+
+        if (data == null) {
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 
 }
