@@ -1,7 +1,10 @@
 package com.scu.planeticket.service;
 
+import com.scu.planeticket.pojo.dto.GetAirlineInfoListRespDTO;
 import com.scu.planeticket.pojo.entity.AirlineInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -9,8 +12,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author MOATSH
- * @since 2024-03-09
+ * @since  2024-03-09
  */
 public interface AirlineInfoService extends IService<AirlineInfo> {
-
+List<GetAirlineInfoListRespDTO> getInfoList();
 }

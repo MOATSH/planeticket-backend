@@ -1,22 +1,16 @@
 package com.scu.planeticket.controller;
-
 import com.scu.planeticket.JsonResult;
 import com.scu.planeticket.mapper.UserInfoMapper;
 import com.scu.planeticket.pojo.entity.UserInfo;
 import com.scu.planeticket.service.UserInfoService;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
-
-import static javax.security.auth.callback.ConfirmationCallback.OK;
-
 /**
  * @Program: planeticket
  * @Description:
  * @Author: MOATSH
  * @Create: 2024-03-10 10:47
  **/
-
 @RestController
 @CrossOrigin
 @RequestMapping("/userInfo")
