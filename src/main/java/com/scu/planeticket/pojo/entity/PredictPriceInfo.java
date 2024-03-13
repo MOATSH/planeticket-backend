@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -24,7 +25,7 @@ public class PredictPriceInfo implements Serializable {
     /**
      * 主键，自增唯一标识
      */
-      @TableId(value = "predict_id", type = IdType.AUTO)
+    @TableId(value = "predict_id", type = IdType.AUTO)
     private Long predictId;
 
     /**
@@ -45,7 +46,7 @@ public class PredictPriceInfo implements Serializable {
     /**
      * 日期
      */
-    private Integer date;
+    private LocalDateTime date;
 
 
 }

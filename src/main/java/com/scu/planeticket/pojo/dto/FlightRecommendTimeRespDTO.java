@@ -11,26 +11,28 @@ import java.util.List;
  * @Program: planeticket
  * @Description:
  * @Author: MOATSH
- * @Create: 2024-03-11 14:41
+ * @Create: 2024-03-12 10:22
  **/
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class FlightRecommendDestRespDTO {
+@AllArgsConstructor
+public class FlightRecommendTimeRespDTO {
 
     @Data
     @Builder
-    @NoArgsConstructor
     @AllArgsConstructor
-    public static class MapInfo {
-        private Float longitude;
-        private Float latitude;
-        private String cityName;
+    @NoArgsConstructor
+    public static class PriceList {
+        private String date;
         private String price;
     }
 
-    private List<MapInfo> mapInfo;
+    private String departureCity;
+
+    private String destCity;
+
+    private List<PriceList> priceList;
 
 }

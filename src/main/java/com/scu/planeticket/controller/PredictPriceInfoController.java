@@ -1,8 +1,8 @@
 package com.scu.planeticket.controller;
 
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/predictPriceInfo")
+@CrossOrigin
 public class PredictPriceInfoController {
 
 }

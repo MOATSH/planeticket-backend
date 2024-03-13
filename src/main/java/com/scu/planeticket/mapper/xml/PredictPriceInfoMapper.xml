@@ -4,7 +4,7 @@
 
     <select id="selectRecommendDest" parameterType="com.scu.planeticket.pojo.dto.FlightRecommendDestReqDTO"
             resultType="com.scu.planeticket.pojo.dto.FlightRecommendDestRespDTO$MapInfo">
-        select q.longitude, q.latitude, p.price
+        select q.longitude, q.latitude, p.price, r.city_name
         from (select dest_airport, price
               from predict_price_info
               where start_airport in
@@ -15,7 +15,8 @@
                            where city_name = #{departureCity}) as b
                      where a.city_id = b.city_id)
                 and date = #{date}) as p
-                 join airport_info as q on p.dest_airport = q.airport_code;
+                 join airport_info as q on p.dest_airport = q.airport_code
+                 join city_info as r on q.city_id = r.city_id;
     </select>
 
 </mapper>

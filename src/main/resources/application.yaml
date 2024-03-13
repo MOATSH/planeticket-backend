@@ -9,7 +9,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://8.137.118.233:3306/flight_db?serverTimezone=GMT%2B8&characterEncoding=utf-8
     username: root
-    password: 123456@SCU
+    password: 123456789@SCU
     hikari:
       max-lifetime: 60000
   redis:
@@ -23,6 +23,7 @@ spring:
         max-wait: -1
         max-idle: 8
         min-idle: 0
+    password: 123456@SCU
 
 mybatis-plus:
   configuration:
