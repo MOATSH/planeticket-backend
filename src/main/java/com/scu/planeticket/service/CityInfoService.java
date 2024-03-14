@@ -18,4 +18,6 @@ public interface CityInfoService extends IService<CityInfo> {
 
     List<GetCityInfoListRespDTO> getInfoList();
 
+    CityInfo getSingleCityInfo(String cityName);
+
 }

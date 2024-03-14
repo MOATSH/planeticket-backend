@@ -1,5 +1,6 @@
 package com.scu.planeticket.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.scu.planeticket.pojo.dto.GetCityInfoListRespDTO;
 import com.scu.planeticket.pojo.entity.CityInfo;
 import com.scu.planeticket.mapper.CityInfoMapper;
@@ -30,6 +31,11 @@ public class CityInfoServiceImpl extends ServiceImpl<CityInfoMapper, CityInfo> i
                 .latitude(cityInfo.getLatitude())
                 .longitude(cityInfo.getLongitude())
                 .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public CityInfo getSingleCityInfo(String cityName) {
+        return baseMapper.selectOne(new QueryWrapper<CityInfo>().eq("city_name", cityName));
     }
 
 }
