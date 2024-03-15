@@ -1,10 +1,7 @@
 package com.scu.planeticket.controller;
 
 
-import com.scu.planeticket.pojo.dto.FlightRecommendDestReqDTO;
-import com.scu.planeticket.pojo.dto.FlightRecommendDestRespDTO;
-import com.scu.planeticket.pojo.dto.FlightRecommendTimeReqDTO;
-import com.scu.planeticket.pojo.dto.FlightRecommendTimeRespDTO;
+import com.scu.planeticket.pojo.dto.*;
 import com.scu.planeticket.service.FlightInfoService;
 import com.scu.planeticket.service.PredictPriceInfoService;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +34,11 @@ public class FlightInfoController {
     @PostMapping("/recommend/time")
     public FlightRecommendTimeRespDTO recommendTime(@RequestBody FlightRecommendTimeReqDTO requestParam) {
         return predictPriceInfoService.recommendTime(requestParam);
+    }
+
+    @PostMapping("/search")
+    public FlightSearchRespDTO search(@RequestBody FlightSearchReqDTO requestParam) {
+        return flightInfoService.search(requestParam);
     }
 }
 

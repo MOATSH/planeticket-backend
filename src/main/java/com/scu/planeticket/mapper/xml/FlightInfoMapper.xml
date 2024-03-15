@@ -2,4 +2,63 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scu.planeticket.mapper.FlightInfoMapper">
 
+    <select id="selectStraight" resultType="com.scu.planeticket.pojo.dto.FlightSearchRespDTO$Flight">
+        SELECT c1.city_name             AS departure_city,
+               c2.city_name             AS dest_city,
+               f.flight_id,
+               a1.airport_name          AS departure_airport,
+               a2.airport_name          AS dest_airport,
+               f.segment_departure_time AS departure_date,
+               f.arrival_date,
+               f.total_fare,
+               f.total_distance,
+               f.travel_duration
+        FROM flight_info f
+                 JOIN airport_info a1 ON f.start_airport = a1.airport_code
+                 JOIN city_info c1 ON a1.city_id = c1.city_id AND c1.city_name = #{departureCity}
+                 JOIN airport_info a2 ON f.dest_airport = a2.airport_code
+                 JOIN city_info c2 ON a2.city_id = c2.city_id AND c2.city_name = #{destCity}
+        WHERE DATE(f.departure_date) = #{date};
+    </select>
+
+    <select id="selectUnStraight1" resultType="com.scu.planeticket.pojo.dto.FlightSearchRespDTO$Flight">
+        SELECT c1.city_name             AS departure_city,
+               c2.city_name             AS dest_city,
+               f.flight_id,
+               a1.airport_name          AS departure_airport,
+               a2.airport_name          AS dest_airport,
+               f.segment_departure_time AS departure_date,
+               f.arrival_date,
+               f.total_fare,
+               f.total_distance,
+               f.travel_duration
+        FROM flight_info f
+                 JOIN airport_info a1 ON f.start_airport = a1.airport_code
+                 JOIN airport_info a2 ON f.dest_airport = a2.airport_code
+                 JOIN city_info c1 ON a1.city_id = c1.city_id
+                 JOIN city_info c2 ON a2.city_id = c2.city_id
+        WHERE c2.city_name = #{destCity}
+          AND DATE(f.departure_date) = #{date};
+    </select>
+
+    <select id="selectUnStraight2" resultType="com.scu.planeticket.pojo.dto.FlightSearchRespDTO$Flight">
+        SELECT c1.city_name             AS departure_city,
+               c2.city_name             AS dest_city,
+               f.flight_id,
+               a1.airport_name          AS departure_airport,
+               a2.airport_name          AS dest_airport,
+               f.segment_departure_time AS departure_date,
+               f.arrival_date,
+               f.total_fare,
+               f.total_distance,
+               f.travel_duration
+        FROM flight_info f
+                 JOIN airport_info a1 ON f.start_airport = a1.airport_code
+                 JOIN city_info c1 ON a1.city_id = c1.city_id
+                 JOIN airport_info a2 ON f.dest_airport = a2.airport_code
+                 JOIN city_info c2 ON a2.city_id = c2.city_id
+        WHERE c1.city_name = #{departureCity}
+          AND DATE(f.departure_date) = #{date};
+    </select>
+
 </mapper>
