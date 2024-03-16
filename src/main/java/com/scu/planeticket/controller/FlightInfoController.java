@@ -4,9 +4,11 @@ package com.scu.planeticket.controller;
 import com.scu.planeticket.pojo.dto.*;
 import com.scu.planeticket.service.FlightInfoService;
 import com.scu.planeticket.service.PredictPriceInfoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 
 /**
  * <p>
@@ -19,6 +21,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/flightInfo")
 @CrossOrigin
+@Slf4j
 public class FlightInfoController {
     @Resource
     private FlightInfoService flightInfoService;
@@ -38,7 +41,12 @@ public class FlightInfoController {
 
     @PostMapping("/search")
     public FlightSearchRespDTO search(@RequestBody FlightSearchReqDTO requestParam) {
-        return flightInfoService.search(requestParam);
+        try {
+            return flightInfoService.search(requestParam);
+        } catch (IOException e) {
+            log.error("search error", e);
+        }
+        return null;
     }
 }
 

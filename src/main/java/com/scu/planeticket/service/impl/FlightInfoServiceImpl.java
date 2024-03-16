@@ -1,20 +1,31 @@
 package com.scu.planeticket.service.impl;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.scu.planeticket.constants.RedisCacheConstant;
 import com.scu.planeticket.mapper.FlightInfoMapper;
 import com.scu.planeticket.mapper.PredictPriceInfoMapper;
-import com.scu.planeticket.pojo.dto.FlightRecommendDestReqDTO;
-import com.scu.planeticket.pojo.dto.FlightRecommendDestRespDTO;
-import com.scu.planeticket.pojo.dto.FlightSearchReqDTO;
-import com.scu.planeticket.pojo.dto.FlightSearchRespDTO;
+import com.scu.planeticket.mapper.UserInfoMapper;
+import com.scu.planeticket.pojo.dto.*;
 import com.scu.planeticket.pojo.entity.FlightInfo;
+import com.scu.planeticket.pojo.entity.UserInfo;
 import com.scu.planeticket.service.FlightInfoService;
+import com.scu.planeticket.utils.TimeAdder;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.ParseException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -31,11 +42,14 @@ import java.util.concurrent.TimeUnit;
  * @since 2024-03-10
  */
 @Service
+@Slf4j
 public class FlightInfoServiceImpl extends ServiceImpl<FlightInfoMapper, FlightInfo> implements FlightInfoService {
     @Resource
     private PredictPriceInfoMapper predictPriceInfoMapper;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
+    @Resource
+    private UserInfoMapper userInfoMapper;
 
 
     @Override
@@ -73,7 +87,7 @@ public class FlightInfoServiceImpl extends ServiceImpl<FlightInfoMapper, FlightI
     }
 
     @Override
-    public FlightSearchRespDTO search(FlightSearchReqDTO requestParam) {
+    public FlightSearchRespDTO search(FlightSearchReqDTO requestParam) throws IOException {
         FlightSearchRespDTO respDTO = new FlightSearchRespDTO();
         /*
         1. 找出出发地departureCity的所有机场和目的地destCity的所有机场
@@ -123,6 +137,71 @@ public class FlightInfoServiceImpl extends ServiceImpl<FlightInfoMapper, FlightI
             });
         }
         respDTO.setUnStraight(structuredFlights2);
+
+        /*
+        1. 根据userName找到userId
+        2. 将straight存储为flightInfo列表
+        3. 将unStraight存储为flightInfo列表
+        4. 发送请求到47.115.220.74:5000
+        5. 将返回的结果存储为Flight列表
+        6. 构建recommend
+         */
+        List<FlightInfo> recommendRequestList = new ArrayList<>();
+        straightFlights.forEach(item -> recommendRequestList.add(baseMapper.selectById(item.getFlightId())));
+        structuredFlights2.forEach(item -> {
+            FlightInfo flightInfo1 = baseMapper.selectById(item.get(0).getFlightId());
+            FlightInfo flightInfo2 = baseMapper.selectById(item.get(1).getFlightId());
+            FlightInfo concat = new FlightInfo();
+            concat.setFlightId(0L);
+            concat.setStartAirport(flightInfo1.getStartAirport());
+            concat.setDestAirport(flightInfo2.getDestAirport());
+            concat.setTravelDuration(TimeAdder.addIso8601Durations(flightInfo1.getTravelDuration(), flightInfo2.getTravelDuration()));
+            concat.setDepartureDate(flightInfo1.getDepartureDate() + "||" + flightInfo2.getDepartureDate());
+            concat.setTotalFare(flightInfo1.getTotalFare().add(flightInfo2.getTotalFare()));
+            concat.setTotalDistance(flightInfo1.getTotalDistance() + flightInfo2.getTotalDistance());
+            concat.setNotStop(false);
+            concat.setArrivalDate(flightInfo2.getArrivalDate());
+            concat.setSegmentDepartureTime(flightInfo1.getSegmentDepartureTime()+ "||" + flightInfo2.getSegmentDepartureTime());
+            concat.setSegmentArrivalTime(flightInfo1.getSegmentArrivalTime() + "||" + flightInfo2.getSegmentArrivalTime());
+            concat.setSegmentDistance(flightInfo1.getSegmentDistance() + "||" + flightInfo2.getSegmentDistance());
+            recommendRequestList.add(concat);
+        });
+        //构建请求
+        try {
+            RecommendReqDTO reqDTO = RecommendReqDTO.builder()
+                    .user_id(userInfoMapper.selectOne(new QueryWrapper<UserInfo>().eq("user_name", requestParam.getUserName())).getUserId())
+                    .candidate_tickets(recommendRequestList)
+                    .build();
+            CloseableHttpClient aDefault = HttpClients.createDefault();
+            HttpPost post = new HttpPost("http://47.115.220.74:5000/evaluate");
+            StringEntity postString = new StringEntity(JSONUtil.toJsonStr(reqDTO), "UTF-8");
+            post.setEntity(postString);
+            post.setHeader("Content-type", "application/json");
+            CloseableHttpResponse recommendResponse = aDefault.execute(post);
+            String recommendResponseString = EntityUtils.toString(recommendResponse.getEntity());
+            log.error(post.toString());
+            log.error(recommendResponseString);
+            log.error(recommendResponse.toString());
+            List<FlightInfo> recommendResponseList = JSONUtil.toList(JSONUtil.parseArray(recommendResponseString), FlightInfo.class);
+            List<List<FlightSearchRespDTO.Flight>> structuredRecommendFlights = new ArrayList<>();
+            recommendResponseList.forEach(item -> {
+                FlightSearchRespDTO.Flight flight = new FlightSearchRespDTO.Flight();
+                flight.setFlightId(item.getFlightId());
+                flight.setDepartureCity(item.getStartAirport());
+                flight.setDepartureAirport(item.getStartAirport());
+                flight.setDestCity(item.getDestAirport());
+                flight.setDestAirport(item.getDestAirport());
+                flight.setDepartureDate(item.getDepartureDate());
+                flight.setTotalFare(item.getTotalFare().toString());
+                flight.setTotalDistance(item.getTotalDistance());
+                flight.setTravelDuration(item.getTravelDuration());
+                flight.setArrivalDate(item.getArrivalDate());
+                structuredRecommendFlights.add(Collections.singletonList(flight));
+            });
+            respDTO.setRecommend(structuredRecommendFlights);
+        } catch (Exception e) {
+            log.error("recommend error", e);
+        }
 
         return respDTO;
     }

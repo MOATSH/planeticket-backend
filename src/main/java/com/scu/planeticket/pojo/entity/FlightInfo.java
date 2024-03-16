@@ -15,7 +15,7 @@ import java.math.BigDecimal;
  * </p>
  *
  * @author MOATSH
- * @since 2024-03-10
+ * @since 2024-03-14
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,13 +24,13 @@ public class FlightInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 自增主键
+     * 航班主键
      */
       @TableId(value = "flight_id", type = IdType.AUTO)
     private Long flightId;
 
     /**
-     * 起飞机场三字码
+     * 起始机场三字码
      */
     private String startAirport;
 
@@ -40,35 +40,65 @@ public class FlightInfo implements Serializable {
     private String destAirport;
 
     /**
-     * 总时长
+     * 总飞行时间
      */
     private String travelDuration;
 
     /**
-     * 起飞时间
+     * 起飞日期
      */
     private String departureDate;
 
     /**
-     * 含税票价（$）
+     * 总票价
      */
     private BigDecimal totalFare;
 
     /**
-     * 总距离（英里）
+     * 总飞行距离
      */
     private Integer totalDistance;
 
     /**
-     * 是否经停城市（0-否，1-是）
+     * 是否直飞（0-否，1-是）
      */
     @TableField("is_not_stop")
     private Boolean notStop;
 
     /**
-     * 到达时间
+     * 到达日期
      */
     private String arrivalDate;
+
+    /**
+     * 航段起飞时间
+     */
+    private String segmentDepartureTime;
+
+    /**
+     * 航段到达时间
+     */
+    private String segmentArrivalTime;
+
+    /**
+     * 航段起飞机场
+     */
+    private String segmentDepartureAirport;
+
+    /**
+     * 航段到达机场
+     */
+    private String segmentArrivalAirport;
+
+    /**
+     * 航段机型
+     */
+    private String segmentAircraftType;
+
+    /**
+     * 航段距离
+     */
+    private String segmentDistance;
 
 
 }

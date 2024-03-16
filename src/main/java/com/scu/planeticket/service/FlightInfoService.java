@@ -7,6 +7,8 @@ import com.scu.planeticket.pojo.dto.FlightSearchReqDTO;
 import com.scu.planeticket.pojo.dto.FlightSearchRespDTO;
 import com.scu.planeticket.pojo.entity.FlightInfo;
 
+import java.io.IOException;
+
 /**
  * <p>
  * 航班信息表 服务类
@@ -19,5 +21,5 @@ public interface FlightInfoService extends IService<FlightInfo> {
 
     FlightRecommendDestRespDTO recommendDest(FlightRecommendDestReqDTO reqDTO);
 
-    FlightSearchRespDTO search(FlightSearchReqDTO requestParam);
+    FlightSearchRespDTO search(FlightSearchReqDTO requestParam) throws IOException;
 }

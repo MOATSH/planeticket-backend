@@ -29,14 +29,14 @@ public class FlightSearchRespDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Flight {
-        private int flightId;
+        private Long flightId;
         private String departureCity;
         private String departureAirport;
         private String destCity;
         private String destAirport;
         private String departureDate;
         private String totalFare;
-        private String totalDistance;
+        private Integer totalDistance;
         private String travelDuration;
         private String arrivalDate;
     }
