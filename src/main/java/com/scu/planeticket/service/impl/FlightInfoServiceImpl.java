@@ -179,9 +179,6 @@ public class FlightInfoServiceImpl extends ServiceImpl<FlightInfoMapper, FlightI
             post.setHeader("Content-type", "application/json");
             CloseableHttpResponse recommendResponse = aDefault.execute(post);
             String recommendResponseString = EntityUtils.toString(recommendResponse.getEntity());
-            log.error(post.toString());
-            log.error(recommendResponseString);
-            log.error(recommendResponse.toString());
             List<FlightInfo> recommendResponseList = JSONUtil.toList(JSONUtil.parseArray(recommendResponseString), FlightInfo.class);
             List<List<FlightSearchRespDTO.Flight>> structuredRecommendFlights = new ArrayList<>();
             recommendResponseList.forEach(item -> {
@@ -196,6 +193,11 @@ public class FlightInfoServiceImpl extends ServiceImpl<FlightInfoMapper, FlightI
                 flight.setTotalDistance(item.getTotalDistance());
                 flight.setTravelDuration(item.getTravelDuration());
                 flight.setArrivalDate(item.getArrivalDate());
+                String travelDuration = flight.getTravelDuration();
+                Duration duration = Duration.parse(travelDuration);
+                String[] split = item.getSegmentDepartureTime().split("\\|\\|");
+                flight.setDepartureDate(split[0]);
+                flight.setTravelDuration(String.format("%d小时%d分钟", duration.toHours(), duration.toMinutes() % 60));
                 structuredRecommendFlights.add(Collections.singletonList(flight));
             });
             respDTO.setRecommend(structuredRecommendFlights);
